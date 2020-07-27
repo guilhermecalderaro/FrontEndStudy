@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap");
 
-$color: (
+$colors: (
   primary: #005dff,
   primary-light: lighten(#005dff, 40%),
   primary-dark: darken(#005dff, 40%),
@@ -8,11 +8,19 @@ $color: (
 );
 
 @function color($color-name) {
-  @return map-get($color, $color-name);
+  @return map-get($colors, $color-name);
 }
 
 $padding: 15px;
 $border: 15px;
+
+$desktop: 870px;
+
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
 
 body,
 html {
@@ -30,19 +38,28 @@ body {
     height: 100%;
     position: absolute;
     z-index: -1;
+
+    @include desktop {
+      clip-path: polygon(0 0, 75% 0, 55% 100%, 0% 100%);
+    }
   }
 
   header a {
-    color: white;
+    color: #fff;
     text-decoration: none;
     padding: $padding;
     display: block;
     text-transform: uppercase;
-    font-weight: bold;
   }
 }
 
 main {
+  @include desktop {
+    display: grid;
+    grid-template-columns: 50% auto;
+    grid-template-areas: "primary card";
+  }
+
   section#card {
     background: #fff;
     padding: 20px;
@@ -50,6 +67,13 @@ main {
     border-radius: $border;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 80%;
+
+    @include desktop {
+      grid-area: card;
+      height: fit-content;
+      align-self: center;
+      margin: 1em;
+    }
   }
 
   ul {
@@ -89,6 +113,12 @@ main {
       font-size: 3em;
       margin-top: 10px;
       text-transform: uppercase;
+
+      @include desktop {
+        width: 30%;
+        font-size: 4em;
+        line-height: 0.9em;
+      }
     }
 
     p {
@@ -107,6 +137,18 @@ main {
       margin: 50px auto 0 auto;
       padding: $padding;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+      @include desktop {
+        display: inline-block;
+        padding: $padding $padding * 4;
+      }
+    }
+
+    @include desktop {
+      grid-area: primary;
+      text-align: left;
+      margin: 4em 0 0 4em;
+      width: fit-content;
     }
   }
 }
